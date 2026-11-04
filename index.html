@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="ps" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#075e54">
+<title>Saidwali WhatsApp</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#e9edef;color:#222}
+.app{height:100vh;display:flex;max-width:1500px;margin:auto;background:white;overflow:hidden}
+.sidebar{width:360px;min-width:300px;border-left:1px solid #ddd;display:flex;flex-direction:column;background:white}
+.header{height:65px;background:#075e54;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.logo{font-size:21px;font-weight:bold}
+.actions{display:flex;gap:15px;align-items:center}
+.actions button{border:0;background:transparent;color:white;font-size:20px;cursor:pointer}
+.search{padding:12px;background:#fff}
+.search input{width:100%;padding:12px;border:0;border-radius:9px;background:#f0f2f5;outline:none;font-size:15px}
+.tabs{display:flex;justify-content:space-around;padding:12px 5px;border-bottom:1px solid #eee;color:#667781;font-size:14px}
+.tabs span{cursor:pointer}
+.tabs .active{color:#075e54;font-weight:bold;border-bottom:3px solid #25d366;padding-bottom:8px}
+.chats{overflow-y:auto;flex:1}
+.chat{display:flex;align-items:center;gap:12px;padding:13px;cursor:pointer;border-bottom:1px solid #f0f0f0}
+.chat:hover,.chat.selected{background:#f0f2f5}
+.avatar{width:48px;height:48px;border-radius:50%;background:#d9eee5;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.chat-info{flex:1;min-width:0}
+.chat-info strong{display:block;margin-bottom:7px}
+.chat-info small{color:#667781;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.chat-time{font-size:11px;color:#667781}
+.main{flex:1;display:flex;flex-direction:column;background:#efeae2;min-width:0}
+.main-header{height:65px;background:#f0f2f5;display:flex;align-items:center;padding:10px 18px;gap:12px}
+.main-header .avatar{width:42px;height:42px}
+.person{flex:1}
+.person strong{display:block}
+.person small{color:#667781}
+.messages{flex:1;overflow-y:auto;padding:25px 7%;display:flex;flex-direction:column;gap:12px;background-color:#efeae2;background-image:radial-gradient(#d8d2c8 0.6px,transparent .6px);background-size:18px 18px}
+.bubble{max-width:75%;padding:10px 13px;border-radius:10px;background:white;align-self:flex-start;box-shadow:0 1px 1px #ccc;overflow-wrap:anywhere}
+.bubble.mine{background:#d9fdd3;align-self:flex-end}
+.bubble small{display:block;text-align:left;color:#82918a;font-size:10px;margin-top:5px}
+.welcome{margin:auto;text-align:center;color:#52616b;padding:25px}
+.welcome h2{color:#075e54}
+.input-area{background:#f0f2f5;padding:12px;display:flex;gap:10px;align-items:center}
+.input-area input{flex:1;border:0;border-radius:25px;padding:14px 18px;outline:none;font-size:15px;min-width:0}
+.send{background:#075e54;color:white;border:0;border-radius:50%;width:45px;height:45px;font-size:19px;cursor:pointer}
+.send:hover{background:#128c7e}
+.mobile-back{display:none;border:0;background:none;font-size:22px;cursor:pointer}
+@media(max-width:650px){
+.sidebar{width:100%;min-width:0}
+.main{display:none;width:100%}
+.app.open .sidebar{display:none}
+.app.open .main{display:flex}
+.mobile-back{display:block}
+.messages{padding:18px 4%}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<aside class="sidebar">
+ <div class="header">
+  <div class="logo">🟢 Saidwali WhatsApp</div>
+  <div class="actions">
+   <button onclick="alert('د نویو امکاناتو برخه به وروسته فعاله شي')">＋</button>
+   <button onclick="alert('ترتیبات به وروسته فعال شي')">⚙</button>
+  </div>
+ </div>
+
+ <div class="search">
+  <input id="search" placeholder="🔍 د چټونو لټون..." oninput="searchChats()">
+ </div>
+
+ <div class="tabs">
+  <span class="active">ټول</span>
+  <span>نا لوستل شوي</span>
+  <span>ګروپونه</span>
+ </div>
+
+ <div class="chats" id="chatList">
+  <div class="chat selected" onclick="openChat('Saidwali Team','👥','د ټیم خبرې')">
+   <div class="avatar">👥</div>
+   <div class="chat-info"><strong>Saidwali Team</strong><small>د ټیم د خبرو اترو ځای</small></div>
+   <span class="chat-time">اوس</span>
+  </div>
+  <div class="chat" onclick="openChat('ملګري','😊','ښه راغلاست')">
+   <div class="avatar">😊</div>
+   <div class="chat-info"><strong>ملګري</strong><small>د ملګرو چټ</small></div>
+   <span class="chat-time">پرون</span>
+  </div>
+  <div class="chat" onclick="openChat('Family Group','👨‍👩‍👧','کورنۍ خبرې')">
+   <div class="avatar">👨‍👩‍👧</div>
+   <div class="chat-info"><strong>Family Group</strong><small>د کورنۍ ګروپ</small></div>
+   <span class="chat-time">پرون</span>
+  </div>
+  <div class="chat" onclick="openChat('Saidwali Support','💬','د مرستې برخه')">
+   <div class="avatar">💬</div>
+   <div class="chat-info"><strong>Saidwali Support</strong><small>د ملاتړ مرکز</small></div>
+   <span class="chat-time">نن</span>
+  </div>
+ </div>
+</aside>
+
+<main class="main">
+ <div class="main-header">
+  <button class="mobile-back" onclick="backToChats()">←</button>
+  <div class="avatar" id="activeAvatar">👥</div>
+  <div class="person">
+   <strong id="activeName">Saidwali Team</strong>
+   <small id="activeStatus">د چټ خونه</small>
+  </div>
+  <div class="actions">
+   <button onclick="alert('غږیز تماس به د WebRTC له لارې وروسته فعال شي')">📞</button>
+   <button onclick="alert('ویډیويي تماس به وروسته فعال شي')">📹</button>
+  </div>
+ </div>
+
+ <div class="messages" id="messages">
+  <div class="welcome">
+   <h2>🟢 Saidwali WhatsApp</h2>
+   <p>خپلواکه او نوې د پیغامونو رسولو شبکه</p>
+   <p>د پیغام لیکلو لپاره لاندې خانه وکاروه.</p>
+   <small>دا د لومړنۍ نسخې ازمایښتي چټ دی.</small>
+  </div>
+ </div>
+
+ <div class="input-area">
+  <input id="messageInput" placeholder="خپل پیغام ولیکئ..." onkeydown="if(event.key==='Enter')sendMessage()">
+  <button class="send" onclick="sendMessage()">➤</button>
+ </div>
+</main>
+</div>
+
+<script>
+let currentChat="Saidwali Team";
+
+function openChat(name,emoji,status){
+ currentChat=name;
+ document.getElementById("activeName").textContent=name;
+ document.getElementById("activeAvatar").textContent=emoji;
+ document.getElementById("activeStatus").textContent=status;
+ document.getElementById("messages").innerHTML=
+ '<div class="welcome"><h2>'+escapeHTML(name)+'</h2><p>د دې چټ ازمایښتي خونه</p></div>';
+ document.querySelectorAll(".chat").forEach(c=>c.classList.remove("selected"));
+ if(window.innerWidth<=650)document.getElementById("app").classList.add("open");
+}
+function escapeHTML(s){
+ return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function sendMessage(){
+ const input=document.getElementById("messageInput");
+ const value=input.value.trim();
+ if(!value)return;
+ const box=document.getElementById("messages");
+ const welcome=box.querySelector(".welcome");
+ if(welcome)welcome.remove();
+ const bubble=document.createElement("div");
+ bubble.className="bubble mine";
+ bubble.textContent=value;
+ const time=document.createElement("small");
+ time.textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+ bubble.appendChild(time);
+ box.appendChild(bubble);
+ box.scrollTop=box.scrollHeight;
+ input.value="";
+}
+function backToChats(){
+ document.getElementById("app").classList.remove("open");
+}
+function searchChats(){
+ const q=document.getElementById("search").value.toLowerCase();
+ document.querySelectorAll(".chat").forEach(c=>{
+ c.style.display=c.innerText.toLowerCase().includes(q)?"flex":"none";
+ });
+}
+</script>
+</body>
+</html>
