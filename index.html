@@ -8,171 +8,239 @@
 <title>Saidwali WhatsApp</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#e9edef;color:#222}
-.app{height:100vh;display:flex;max-width:1500px;margin:auto;background:white;overflow:hidden}
-.sidebar{width:360px;min-width:300px;border-left:1px solid #ddd;display:flex;flex-direction:column;background:white}
-.header{height:65px;background:#075e54;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
-.logo{font-size:21px;font-weight:bold}
-.actions{display:flex;gap:15px;align-items:center}
-.actions button{border:0;background:transparent;color:white;font-size:20px;cursor:pointer}
-.search{padding:12px;background:#fff}
-.search input{width:100%;padding:12px;border:0;border-radius:9px;background:#f0f2f5;outline:none;font-size:15px}
-.tabs{display:flex;justify-content:space-around;padding:12px 5px;border-bottom:1px solid #eee;color:#667781;font-size:14px}
-.tabs span{cursor:pointer}
-.tabs .active{color:#075e54;font-weight:bold;border-bottom:3px solid #25d366;padding-bottom:8px}
-.chats{overflow-y:auto;flex:1}
-.chat{display:flex;align-items:center;gap:12px;padding:13px;cursor:pointer;border-bottom:1px solid #f0f0f0}
-.chat:hover,.chat.selected{background:#f0f2f5}
-.avatar{width:48px;height:48px;border-radius:50%;background:#d9eee5;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.chat-info{flex:1;min-width:0}
-.chat-info strong{display:block;margin-bottom:7px}
-.chat-info small{color:#667781;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
-.chat-time{font-size:11px;color:#667781}
-.main{flex:1;display:flex;flex-direction:column;background:#efeae2;min-width:0}
-.main-header{height:65px;background:#f0f2f5;display:flex;align-items:center;padding:10px 18px;gap:12px}
-.main-header .avatar{width:42px;height:42px}
-.person{flex:1}
-.person strong{display:block}
-.person small{color:#667781}
-.messages{flex:1;overflow-y:auto;padding:25px 7%;display:flex;flex-direction:column;gap:12px;background-color:#efeae2;background-image:radial-gradient(#d8d2c8 0.6px,transparent .6px);background-size:18px 18px}
-.bubble{max-width:75%;padding:10px 13px;border-radius:10px;background:white;align-self:flex-start;box-shadow:0 1px 1px #ccc;overflow-wrap:anywhere}
-.bubble.mine{background:#d9fdd3;align-self:flex-end}
-.bubble small{display:block;text-align:left;color:#82918a;font-size:10px;margin-top:5px}
-.welcome{margin:auto;text-align:center;color:#52616b;padding:25px}
-.welcome h2{color:#075e54}
-.input-area{background:#f0f2f5;padding:12px;display:flex;gap:10px;align-items:center}
-.input-area input{flex:1;border:0;border-radius:25px;padding:14px 18px;outline:none;font-size:15px;min-width:0}
-.send{background:#075e54;color:white;border:0;border-radius:50%;width:45px;height:45px;font-size:19px;cursor:pointer}
-.send:hover{background:#128c7e}
-.mobile-back{display:none;border:0;background:none;font-size:22px;cursor:pointer}
-@media(max-width:650px){
-.sidebar{width:100%;min-width:0}
-.main{display:none;width:100%}
-.app.open .sidebar{display:none}
-.app.open .main{display:flex}
-.mobile-back{display:block}
-.messages{padding:18px 4%}
-}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#eef2f3;color:#263238;min-height:100vh}
+.top{background:#075e54;color:white;padding:20px;text-align:center}
+.logo{width:65px;height:65px;border-radius:50%;background:#fff;color:#075e54;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 10px}
+.top h1{margin:5px;font-size:25px}
+.top p{margin:5px;font-size:14px;color:#d5f5ed}
+.container{width:92%;max-width:440px;margin:35px auto}
+.panel{background:white;border-radius:17px;padding:25px;box-shadow:0 5px 25px #00000012}
+h2{text-align:center;color:#075e54;margin-top:0}
+label{display:block;margin:17px 0 8px;font-weight:bold}
+input{width:100%;padding:14px;border:1px solid #ccd5d8;border-radius:9px;font-size:17px;direction:ltr;text-align:left}
+button{width:100%;border:0;border-radius:9px;padding:14px;background:#128c7e;color:white;font-size:16px;font-weight:bold;cursor:pointer;margin-top:17px}
+button:disabled{opacity:.6;cursor:wait}
+.secondary{background:#e9f5f2;color:#075e54}
+.message{padding:12px;border-radius:8px;margin-top:15px;display:none;line-height:1.8;overflow-wrap:anywhere}
+.info{background:#e8f5e9;color:#176b36}
+.error{background:#ffebee;color:#b71c1c}
+.demo{background:#fff7df;color:#765500;padding:12px;border-radius:8px;margin-top:14px;line-height:1.8;display:none}
+.small{text-align:center;color:#718087;font-size:12px;margin-top:20px;line-height:1.8}
+.hidden{display:none}
+.account{text-align:center;line-height:2}
+.phone{direction:ltr;font-weight:bold;color:#075e54}
+.status{background:#e9f5f2;padding:15px;border-radius:10px;margin-top:20px}
+.footer{text-align:center;color:#829096;font-size:12px;margin:25px}
 </style>
 </head>
 <body>
-<div class="app" id="app">
 
-<aside class="sidebar">
- <div class="header">
-  <div class="logo">🟢 Saidwali WhatsApp</div>
-  <div class="actions">
-   <button onclick="alert('د نویو امکاناتو برخه به وروسته فعاله شي')">＋</button>
-   <button onclick="alert('ترتیبات به وروسته فعال شي')">⚙</button>
-  </div>
- </div>
+<header class="top">
+  <div class="logo">☎</div>
+  <h1>Saidwali WhatsApp</h1>
+  <p>ستاسو د اړیکو او خبرو اترو مرکز</p>
+</header>
 
- <div class="search">
-  <input id="search" placeholder="🔍 د چټونو لټون..." oninput="searchChats()">
- </div>
+<main class="container">
+  <section class="panel" id="authPanel">
+    <h2>ثبت‌نام او ننوتل</h2>
+    <p style="text-align:center;color:#667">د خپل موبایل نړیوال نمبر ولیکئ.</p>
 
- <div class="tabs">
-  <span class="active">ټول</span>
-  <span>نا لوستل شوي</span>
-  <span>ګروپونه</span>
- </div>
+    <label for="phone">د موبایل شمېره</label>
+    <input id="phone" type="tel" placeholder="+937XXXXXXXX" autocomplete="tel">
 
- <div class="chats" id="chatList">
-  <div class="chat selected" onclick="openChat('Saidwali Team','👥','د ټیم خبرې')">
-   <div class="avatar">👥</div>
-   <div class="chat-info"><strong>Saidwali Team</strong><small>د ټیم د خبرو اترو ځای</small></div>
-   <span class="chat-time">اوس</span>
-  </div>
-  <div class="chat" onclick="openChat('ملګري','😊','ښه راغلاست')">
-   <div class="avatar">😊</div>
-   <div class="chat-info"><strong>ملګري</strong><small>د ملګرو چټ</small></div>
-   <span class="chat-time">پرون</span>
-  </div>
-  <div class="chat" onclick="openChat('Family Group','👨‍👩‍👧','کورنۍ خبرې')">
-   <div class="avatar">👨‍👩‍👧</div>
-   <div class="chat-info"><strong>Family Group</strong><small>د کورنۍ ګروپ</small></div>
-   <span class="chat-time">پرون</span>
-  </div>
-  <div class="chat" onclick="openChat('Saidwali Support','💬','د مرستې برخه')">
-   <div class="avatar">💬</div>
-   <div class="chat-info"><strong>Saidwali Support</strong><small>د ملاتړ مرکز</small></div>
-   <span class="chat-time">نن</span>
-  </div>
- </div>
-</aside>
+    <button id="sendBtn" onclick="requestCode()">د تصدیق کوډ ترلاسه کول</button>
 
-<main class="main">
- <div class="main-header">
-  <button class="mobile-back" onclick="backToChats()">←</button>
-  <div class="avatar" id="activeAvatar">👥</div>
-  <div class="person">
-   <strong id="activeName">Saidwali Team</strong>
-   <small id="activeStatus">د چټ خونه</small>
-  </div>
-  <div class="actions">
-   <button onclick="alert('غږیز تماس به د WebRTC له لارې وروسته فعال شي')">📞</button>
-   <button onclick="alert('ویډیويي تماس به وروسته فعال شي')">📹</button>
-  </div>
- </div>
+    <div id="demoBox" class="demo"></div>
 
- <div class="messages" id="messages">
-  <div class="welcome">
-   <h2>🟢 Saidwali WhatsApp</h2>
-   <p>خپلواکه او نوې د پیغامونو رسولو شبکه</p>
-   <p>د پیغام لیکلو لپاره لاندې خانه وکاروه.</p>
-   <small>دا د لومړنۍ نسخې ازمایښتي چټ دی.</small>
-  </div>
- </div>
+    <div id="verifyArea" class="hidden">
+      <label for="code">د تصدیق کوډ</label>
+      <input id="code" type="text" inputmode="numeric" maxlength="6" placeholder="123456">
+      <button id="verifyBtn" onclick="verifyCode()">ننوتل / ثبت‌نام</button>
+    </div>
 
- <div class="input-area">
-  <input id="messageInput" placeholder="خپل پیغام ولیکئ..." onkeydown="if(event.key==='Enter')sendMessage()">
-  <button class="send" onclick="sendMessage()">➤</button>
- </div>
+    <div id="message" class="message"></div>
+
+    <p class="small">
+      یادونه: دا د ازموینې نسخه ده. اوس مهال واقعي SMS نه لېږل کېږي.
+      د SMS خدمت به په راتلونکي پړاو کې فعال شي.
+    </p>
+  </section>
+
+  <section class="panel hidden" id="accountPanel">
+    <h2>ښه راغلاست!</h2>
+    <div class="account">
+      <div class="logo" style="background:#e5f5ef">✓</div>
+      <p>ستاسو حساب په بریالیتوب فعال شو.</p>
+      <p>د موبایل شمېره:</p>
+      <div class="phone" id="accountPhone"></div>
+      <div class="status">
+        <strong>حساب فعال دی</strong>
+        <p>د پیغامونو او چټ برخه به په راتلونکي پړاو کې له سرور سره ونښلول شي.</p>
+      </div>
+    </div>
+    <button class="secondary" onclick="logout()">وتل</button>
+  </section>
 </main>
-</div>
+
+<div class="footer">Saidwali WhatsApp © 2026</div>
 
 <script>
-let currentChat="Saidwali Team";
+const API_URL = "https://saidwali-whatsapp-server.walizaad2.workers.dev";
 
-function openChat(name,emoji,status){
- currentChat=name;
- document.getElementById("activeName").textContent=name;
- document.getElementById("activeAvatar").textContent=emoji;
- document.getElementById("activeStatus").textContent=status;
- document.getElementById("messages").innerHTML=
- '<div class="welcome"><h2>'+escapeHTML(name)+'</h2><p>د دې چټ ازمایښتي خونه</p></div>';
- document.querySelectorAll(".chat").forEach(c=>c.classList.remove("selected"));
- if(window.innerWidth<=650)document.getElementById("app").classList.add("open");
+const $ = id => document.getElementById(id);
+let currentPhone = "";
+
+function showMessage(text, type="info"){
+  const box = $("message");
+  box.textContent = text;
+  box.className = "message " + type;
+  box.style.display = "block";
 }
-function escapeHTML(s){
- return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function hideMessage(){
+  $("message").style.display = "none";
 }
-function sendMessage(){
- const input=document.getElementById("messageInput");
- const value=input.value.trim();
- if(!value)return;
- const box=document.getElementById("messages");
- const welcome=box.querySelector(".welcome");
- if(welcome)welcome.remove();
- const bubble=document.createElement("div");
- bubble.className="bubble mine";
- bubble.textContent=value;
- const time=document.createElement("small");
- time.textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
- bubble.appendChild(time);
- box.appendChild(bubble);
- box.scrollTop=box.scrollHeight;
- input.value="";
+
+async function api(path, method="GET", data=null, token=null){
+  const headers = {"Content-Type":"application/json"};
+  if(token) headers.Authorization = "Bearer " + token;
+
+  const response = await fetch(API_URL + path, {
+    method,
+    headers,
+    body: data ? JSON.stringify(data) : undefined
+  });
+
+  let result;
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("له سرور څخه ناسم ځواب ترلاسه شو.");
+  }
+
+  if(!response.ok || result.ok === false){
+    throw new Error(result.error || result.message || "غوښتنه بریالۍ نه شوه.");
+  }
+  return result;
 }
-function backToChats(){
- document.getElementById("app").classList.remove("open");
+
+function normalizePhone(value){
+  return value.trim().replace(/\s+/g,"");
 }
-function searchChats(){
- const q=document.getElementById("search").value.toLowerCase();
- document.querySelectorAll(".chat").forEach(c=>{
- c.style.display=c.innerText.toLowerCase().includes(q)?"flex":"none";
- });
+
+async function requestCode(){
+  hideMessage();
+  $("demoBox").style.display = "none";
+
+  const phone = normalizePhone($("phone").value);
+
+  if(!/^\+[1-9]\d{7,14}$/.test(phone)){
+    showMessage("مهرباني وکړئ نړیوال نمبر ولیکئ، لکه +937XXXXXXXX.","error");
+    return;
+  }
+
+  $("sendBtn").disabled = true;
+  $("sendBtn").textContent = "مهرباني وکړئ...";
+
+  try{
+    const result = await api("/auth/request-code","POST",{phone});
+    currentPhone = phone;
+    $("verifyArea").classList.remove("hidden");
+
+    if(result.demoCode){
+      $("demoBox").innerHTML =
+        "د ازموینې تصدیقي کوډ: <strong dir='ltr'>" +
+        String(result.demoCode) +
+        "</strong><br>دا کوډ په لاندې برخه کې ولیکئ.";
+      $("demoBox").style.display = "block";
+      $("code").value = String(result.demoCode);
+    }
+
+    showMessage("د تصدیق کوډ غوښتنه بریالۍ شوه.","info");
+  }catch(error){
+    showMessage(error.message,"error");
+  }finally{
+    $("sendBtn").disabled = false;
+    $("sendBtn").textContent = "د تصدیق کوډ ترلاسه کول";
+  }
 }
+
+async function verifyCode(){
+  hideMessage();
+  const code = $("code").value.trim();
+
+  if(!currentPhone){
+    showMessage("لومړی د موبایل نمبر ولیکئ او کوډ وغواړئ.","error");
+    return;
+  }
+  if(!/^\d{6}$/.test(code)){
+    showMessage("مهرباني وکړئ شپږ عددي کوډ ولیکئ.","error");
+    return;
+  }
+
+  $("verifyBtn").disabled = true;
+  $("verifyBtn").textContent = "د تایید په حال کې...";
+
+  try{
+    const result = await api("/auth/verify","POST",{
+      phone:currentPhone,
+      code:code
+    });
+
+    const token = result.token || result.sessionToken || result.accessToken;
+    if(!token){
+      throw new Error("سرور د ننوتلو ټوکن راونه لېږه. د Worker ځواب باید وکتل شي.");
+    }
+
+    localStorage.setItem("saidwali_whatsapp_token",token);
+    await loadAccount(token);
+  }catch(error){
+    showMessage(error.message,"error");
+  }finally{
+    $("verifyBtn").disabled = false;
+    $("verifyBtn").textContent = "ننوتل / ثبت‌نام";
+  }
+}
+
+async function loadAccount(token){
+  const result = await api("/auth/me","GET",null,token);
+  const user = result.user || result.data || {};
+  $("accountPhone").textContent = user.phone || currentPhone || "حساب فعال";
+  $("authPanel").classList.add("hidden");
+  $("accountPanel").classList.remove("hidden");
+}
+
+async function logout(){
+  const token = localStorage.getItem("saidwali_whatsapp_token");
+  try{
+    if(token) await api("/auth/logout","POST",{},token);
+  }catch(error){
+    console.log("Logout:",error.message);
+  }
+  localStorage.removeItem("saidwali_whatsapp_token");
+  currentPhone = "";
+  $("accountPanel").classList.add("hidden");
+  $("authPanel").classList.remove("hidden");
+  $("verifyArea").classList.add("hidden");
+  $("demoBox").style.display = "none";
+  $("phone").value = "";
+  $("code").value = "";
+  hideMessage();
+}
+
+async function checkLogin(){
+  const token = localStorage.getItem("saidwali_whatsapp_token");
+  if(!token) return;
+
+  try{
+    await loadAccount(token);
+  }catch(error){
+    localStorage.removeItem("saidwali_whatsapp_token");
+  }
+}
+
+checkLogin();
 </script>
 </body>
 </html>
